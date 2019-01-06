@@ -2,7 +2,6 @@
 
 ## Parts/screens
 
-
 1. Welcome/initial
 	- logo
 	- title
@@ -13,7 +12,7 @@
 		- Country (for the flag API)
 		- what if already played?
 	- go play button!
-	- dificulty mode (Timed / easy: no time / challenge)
+	- dificulty mode (Easy: no time / Timed / Challenge)
 	- Button to leaderboard
 
 
@@ -74,10 +73,6 @@
 		- Easy = no time, so we need the # of cards
 		- Timed =  we need the # of cards, select time
 		- Challenge = preset # of cards and time
-
-- 
-
-
 
 
 ----
