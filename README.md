@@ -12,7 +12,7 @@
 
 > **Project Description**
 
-Our web version of the popular memory card game where the objective is to collect the most pairs of cards. This version will allow a player to play any of three modes: easy (just chose the number of pairs), timed (same as easy but with timed countdown) and challenge (a progressively difficult game). The player will also be able to log his/her game stats on a leader board using name and country.
+Our web version of the popular memory card game where the objective is to collect the most pairs of cards. This version will allow a player to play any of three modes: **easy** (just chose the number of pairs), **timed** (same as easy but with timed countdown) and **challenge** (a progressively difficult game). The player will also be able to log his/her game stats on a leader board using name and country.
 
 > **Sketch of Final Product**
 
@@ -21,7 +21,7 @@ Our web version of the popular memory card game where the objective is to collec
 > **APIs to be Used**
 
 - `Marvel API` (https://developer.marvel.com/) for the images on the cards.
-- `Country flags AP`I (https://countryflags.io/) for the flags in the leader board.
+- `Country flags API` (https://countryflags.io/) for the flags in the leader board.
 
 > **Rough Breakdown of Tasks**
 
