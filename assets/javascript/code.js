@@ -90,20 +90,50 @@ $(document).ready(function () {
         return d << _ | d >>> 32 - _
     }
 
-    ts = Math.round(+new Date()/1000).toString();
-    
+    ts = Math.round(+new Date() / 1000).toString();
+
 
     var value = ts + apikey + private;
 
     var hash = MD5(value);
 
+    var ts2 = new Date().getTime();
+    var stringToHash = ts2 + apikey + private;
+    var hash2 = MD5(stringToHash);
+
+    if(hash === hash2){
+        console.log("SAME");
+    }
+
+    console.log("******************************************");
+    console.log(ts2);
+    console.log(hash2);
+    console.log("http://gateway.marvel.com/v1/public/comics?ts=" + ts2 + "&apikey=" + apikey + "&hash=" + hash2);
+    console.log("******************************************");
+
+
     console.log("PUBLIC KEY: " + apikey);
     console.log("PRIVATE KEY: " + private);
     console.log("TIME STAMP: " + ts);
     console.log("HASH: " + hash);
-    
+
     console.log("******************************************");
-    console.log("http://gateway.marvel.com/v1/public/comics?ts=" + ts + "&apikey=" + apikey + "&hash=" + hash); 
-    console.log("http://gateway.marvel.com/v1/public/comics?limit=10&format=comic&formatType=comic&dateRange=2017-01-01%2C2017-12-31&ts=" + ts + "&apikey=" + apikey + "&hash=" + hash); 
+    console.log("http://gateway.marvel.com/v1/public/comics?ts=" + ts + "&apikey=" + apikey + "&hash=" + hash);
+    console.log("http://gateway.marvel.com/v1/public/comics?limit=10&format=comic&formatType=comic&dateRange=2017-01-01%2C2017-12-31&ts=" + ts + "&apikey=" + apikey + "&hash=" + hash);
+
+
+    var queryURL = "http://gateway.marvel.com/v1/public/comics?ts=" + ts + "&apikey=" + apikey + "&hash=" + hash;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (res) {
+
+        console.log(res);
+
+    });
+
+
+
 
 });
