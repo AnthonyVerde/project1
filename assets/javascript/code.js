@@ -101,7 +101,7 @@ $(document).ready(function () {
     var stringToHash = ts2 + apikey + private;
     var hash2 = MD5(stringToHash);
 
-    if(hash === hash2){
+    if (hash === hash2) {
         console.log("SAME");
     }
 
@@ -122,16 +122,52 @@ $(document).ready(function () {
     console.log("http://gateway.marvel.com/v1/public/comics?limit=10&format=comic&formatType=comic&dateRange=2017-01-01%2C2017-12-31&ts=" + ts + "&apikey=" + apikey + "&hash=" + hash);
 
 
-    var queryURL = "http://gateway.marvel.com/v1/public/comics?ts=" + ts + "&apikey=" + apikey + "&hash=" + hash;
+    // var queryURL = "http://gateway.marvel.com/v1/public/comics?ts=" + ts2 + "&apikey=" + apikey + "&hash=" + hash2;
 
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function (res) {
+    // $.ajax({
+    //     url: queryURL,
+    //     method: "GET"
+    // }).then(function (res) {
 
-        console.log(res);
+    //     console.log(res);
 
-    });
+    // });
+
+
+    var PRIV_KEY = private;
+    var PUBLIC_KEY = apikey;
+
+    function getMarvelResponse() {
+
+        // you need a new ts every request                                                                                    
+        var ts = new Date().getTime();
+        var hash = CryptoJS.MD5(ts + PRIV_KEY + PUBLIC_KEY).toString();
+
+        // the api deals a lot in ids rather than just the strings you want to use
+        var characterId = '1009718'; // wolverine                                                                             
+
+
+        var url = 'http://gateway.marvel.com:80/v1/public/comics';
+
+        console.log(url);
+        $.getJSON(url, {
+                ts: ts,
+                apikey: PUBLIC_KEY,
+                hash: hash,
+                characters: characterId
+            })
+            .done(function (data) {
+                // sort of a long dump you will need to sort through
+                console.log(data);
+            })
+            .fail(function (err) {
+                // the error codes are listed on the dev site
+                console.log(err);
+            });
+    };
+
+    getMarvelResponse();
+
 
 
 
