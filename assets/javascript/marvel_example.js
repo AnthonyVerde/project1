@@ -21,17 +21,17 @@ function getComicData(year) {
 		
 $(document).ready(function() {
 	
-	var $results = $("#results");
-	var $status = $("#status");
+	// var $results = $("#results");
+	// var $status = $("#status");
 	
-	var templateSource = $("#reportTemplate").html();
-	var template = Handlebars.compile(templateSource);
+	// var templateSource = $("#reportTemplate").html();
+	// var template = Handlebars.compile(templateSource);
 	var start = 2013;
 	var end = 1950;
 	
 	var promises = [];
 	
-	$status.html("<i>Getting comic book data - this will be slow - stand by...</i>");
+	// $status.html("<i>Getting comic book data - this will be slow - stand by...</i>");
 	
 	for(var x=start; x>=end; x--) {
 		promises.push(getComicData(x));
@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 		var args = Array.prototype.slice.call(arguments, 0);
 
-		$status.html("");
+		// $status.html("");
 		
 		for(var x=0; x<args.length; x++) {
 			var year = start-x;
@@ -88,8 +88,8 @@ $(document).ready(function() {
 				}
 				
 				console.dir(stats);
-				var html = template(stats);
-				$results.append(html);
+				// var html = template(stats);
+				// $results.append(html);
 			}
 		}
 	});
