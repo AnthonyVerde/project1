@@ -10,6 +10,10 @@
     background-color: brown;
     color: white;
   }
+  .container {
+    text-align: center;
+  }
+
   </style>
 </head>
 
@@ -19,29 +23,17 @@
 
     <form id="char-form">
 
-      <input id="id-input" type="text">
+      <input id="search-input" type="text">
 
-      <button id="btn">Find Character by ID</button>
+      <button id="btn">Find Character by Name or ID (Number between 1 and 731)</button>
      <br>
     </form>
+    <br>
     <div id="container">
-      <div id="name-view"></div><br>
+      <div id="name-view" style="font-size: 20px; font-weight: bold"></div><br>
       <div id="photo-view"><img src="spiderman.0.0.jpg" alt="Spiderman" height="400" width="500"></div>
     </div>
-    <div style="float: right; position: fixed; right:350px; top:150px; text-align: center" id="description">
-      <h1>instructions</h1>
-      <p>Enter a number between 1 and 731 to get the characters on cards</p>
-      <br>
-      <h6>Most popular Super Heroes:</h6>
-       <ul>
-         <li>Spiderman (various versions) = 620, 621, 622</li>
-         <li>Hulk (various versions)= 332, 547, 589</li>
-         <li>Iron-man = 346</li>
-         <li>Aquaman = 38</li>
-         <li>Wonder-woman = 720</li>
-         <li>Superman = 644</li>
-       </ul>
-    </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
 
@@ -49,11 +41,13 @@
 
         event.preventDefault();
 
-        var ID = $("#id-input").val();
+        var SEARCH = $("#search-input").val();
 
         const KEY = '10161297457820113';
 
-        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/${ID}`;
+        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/${SEARCH}`;
+        var queryURL2 = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/${SEARCH}`;
+
 
         $("#photo-view").empty();
 
@@ -62,13 +56,25 @@
           url: queryURL,
           method: "GET"
         }).then(function (response) {
+          $("#name-view").text(JSON.stringify(response.results[0].image));
+
+          var heroImage = $("<img>").attr("src", response.results[0].image.url);
+          $("#photo-view").append(heroImage);
+
+        });
+
+        $.ajax({
+          url: queryURL2,
+          method: "GET"
+        }).then(function (response) {
           $("#name-view").text(JSON.stringify(response.name));
 
           var heroImage = $("<img>").attr("src", response.image.url);
           $("#photo-view").append(heroImage);
 
-          console.log(response);
         });
+
+
 
 
       });
