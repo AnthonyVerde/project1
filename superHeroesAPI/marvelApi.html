@@ -13,6 +13,10 @@
   .container {
     text-align: center;
   }
+  .imgResult {
+    width: 100px;
+    height: 150px;
+  }
 
   </style>
 </head>
@@ -58,7 +62,7 @@
         }).then(function (response) {
           $("#name-view").text(JSON.stringify(response.results[0].image));
 
-          var heroImage = $("<img>").attr("src", response.results[0].image.url);
+          var heroImage = $("<img>").attr("src", response.results[0].image.url).addClass("imgResult");
           $("#photo-view").append(heroImage);
 
         });
@@ -69,7 +73,7 @@
         }).then(function (response) {
           $("#name-view").text(JSON.stringify(response.name));
 
-          var heroImage = $("<img>").attr("src", response.image.url);
+          var heroImage = $("<img>").attr("src", response.image.url).addClass("imgResult");
           $("#photo-view").append(heroImage);
 
         });
