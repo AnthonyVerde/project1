@@ -1,0 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: beige;
+}
+
+#container {
+    text-align: center;
+    width: 960px;
+    margin: auto;
+}
+
+#flags {
+    width: 100px;
+    height: 60px;
+}
