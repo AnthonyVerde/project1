@@ -59,7 +59,7 @@ $(document).ready(function () {
 
         //////////////////////// GIPHY ////////////////////////
         $.ajax({
-            url: "https://api.giphy.com/v1/gifs/search?api_key=lKEjHvIVGBtk7Z1Ai1vo4y0bqkX3CHJp&q=numbers&limit=8",
+            url: "https://api.giphy.com/v1/gifs/search?api_key=lKEjHvIVGBtk7Z1Ai1vo4y0bqkX3CHJp&q=numbers&limit=" + pairs,
             method: "GET"
         }).then(function (res) {
 
@@ -83,7 +83,23 @@ $(document).ready(function () {
     function displayCards() {
 
         // Resize the container of the cards
-        $("#gifBox").css("width", 500);
+        switch (parseInt(pairs)) {
+            case 2:
+                var boxWidth = 240;
+                break;
+
+            case 3, 4:
+                var boxWidth = 360;
+                break;
+
+            default:
+                var boxWidth = 480;
+                break;
+        }
+
+        console.log("Pairs: " + pairs + "   Width: " + boxWidth);
+
+        $("#gifBox").css("width", boxWidth);
 
         // Remove all the existing cards
         $("#gifs").html("");
@@ -102,7 +118,7 @@ $(document).ready(function () {
 
     // Update player stats
     function updateStats() {
-        
+
         $("#info").html("");
         var gameStats = $("<h2>").text("Pairs matched: " + pairsMatched + "  Tries: " + tries).appendTo($("#info"));
     }
@@ -169,13 +185,13 @@ $(document).ready(function () {
                 }
 
                 // Empty the URL and index array
-                urlArray= [];
+                urlArray = [];
                 indexArray = [];
 
             }, 2000); // Wait this many miliseconds after the second card is picked
 
-        // Update the game stats
-        updateStats();
+            // Update the game stats
+            updateStats();
 
         }
 

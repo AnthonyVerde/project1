@@ -2,6 +2,9 @@ body{
     text-align: center;
 }
 
+#gifBox{
+    text-align: left;
+}
 
 .card {
     font-size: 1.3em;
