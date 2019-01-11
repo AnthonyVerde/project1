@@ -1,9 +1,59 @@
 body{
     text-align: center;
+    background-color: #D1F8FF;
 }
 
-#gifBox{
-    text-align: left;
+#header {
+    background-color: #D1F8FF;
+    color: #333;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+}
+
+#header h2{
+    font-size: 2.6em;
+    margin: 10px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+form {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: #333;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    font-size: 1.3em;
+}
+
+label {
+    margin: 10px;
+}
+
+.btn-lg {
+    background-color: #FBB03B;
+    color: #333;
+    border: none;
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-top: 40px;
+}
+
+.btn-lg:hover {
+    background-color: rgb(253, 218, 161);
+    color: #555;
+    border: none;
+}
+
+.btn-lg:active {
+    background-color: #FBB03B;
+    color: #333;
+    border: none;
 }
 
 .card {
@@ -16,9 +66,16 @@ body{
     background-color: rgba(255, 255, 255, 0.637);
 }
 
-#clock{
-    font-size: 2rem;
-    color: blue;
+footer {
+    background-color: #98DAE6;
+    z-index: 1;
+    height: 100px;
+    padding: 10px;
+}
+
+footer p {
+    text-align: left;
+
 }
 
 @media screen and (max-width: 768px) {
