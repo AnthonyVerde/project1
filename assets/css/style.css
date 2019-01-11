@@ -20,6 +20,10 @@ img {
     height: auto;
 }
 
+#gifBox{
+    pointer-events: all;
+}
+
 form {
     max-width: 500px;
     margin: auto;
@@ -60,6 +64,7 @@ label {
     font-size: 1.3em;
     color: black;
     max-width: 100px;
+    max-height: 140px;
     display: inline-block;
     font-weight: 700;
     border: 2px solid #ecbd48;
