@@ -1,31 +1,31 @@
 // VARIABLES --------------------------------------------
 
 //      OBJECTS
-
+var intervalId; // Holds setInterval that runs the stopwatch
 
 
 //      ARRAYS
-var cardsArray = [];
-var urlArray = [];
-var indexArray = [];
+var cardsArray = []; // Will hold the URLs fr all cards in te grid
+var urlArray = []; // Will hold the URL of card one and card two
+var indexArray = []; // Will hold the index of card one and card two
 
 //      STRINGS/CHAR
-var userName = '';
-var userCountry = '';
-var mode = '';
-var firstPick = "";
-var secondPick = "";
+var userName = ''; // User's name
+var userCountry = ''; // User's country name
+var mode = ''; // Type of game selected [EASY, TIMED, CHALLENGE]
+var firstPick = ""; // Index of the first card picked
+var secondPick = ""; // Index of the second card picked
 
 //      NUMBER/INTEGER
-var pairs = 0;
-var tries = 0;
-var time = 0;
-var games = 0;
-var pairsMatched = 0;
+var pairs = 0; // Pair of cards that will be in the grid
+var tries = 0; // Number of pairs fliped in a game
+var time = 0; // Time to beat every game
+var games = 0; // Number of games played
+var pairsMatched = 0; // Number of pairs matched in a game
 
 //      BOOLEAN
-var timer = false;
-var challenge = false;
+var timer = false; // The game requires to show and use timer
+var challenge = false; // The player is on 'challenge' mode
 
 
 // Creating a "player info" object using constructor notation
@@ -77,6 +77,13 @@ $(document).ready(function () {
             displayCards();
         });
         //////////////////////// GIPHY ////////////////////////
+
+        console.log("calling the clock")
+        if (mode === "timed" || mode === "challenge") {
+            timerRun(60);
+        } else {
+            $("#clock").hide();
+        }
 
     }
 
@@ -243,6 +250,48 @@ $(document).ready(function () {
 
     })
 
+
+    /********** ALL TIMER RELATED FUNCTIONS **********/
+    function timerRun(timeToBeat) {
+
+        // Stop timer
+        timerStop();
+
+        // Set time for the game
+        time = timeToBeat;
+
+        // Set interval to 1 second
+        clearInterval(intervalId);
+        intervalId = setInterval(decrement, 1000);
+    }
+
+    function timerStop() {
+        // Return clock to 00
+        clearInterval(intervalId);
+    }
+
+    function decrement() {
+
+        //  Decrease time by one.
+        time--;
+
+        //  Update the time 
+        $("#clock").text(time);
+
+        //  When run out of time...
+        if (time <= 0) {
+
+            //  Update the time 
+            $("#clock").text("Time's up!");
+
+            // Stop timer
+            timerStop();
+
+            // Log "out of time" and question number
+            console.log("Clock down");
+        }
+    }
+    /*************************************************/
 
 
 
