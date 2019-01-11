@@ -10,8 +10,11 @@ var urlArray = [];
 var indexArray = [];
 
 //      STRINGS/CHAR
-var username = '';
+var userName = '';
+var userCountry = '';
 var mode = '';
+var firstPick = "";
+var secondPick = "";
 
 //      NUMBER/INTEGER
 var pairs = 0;
@@ -23,7 +26,6 @@ var pairsMatched = 0;
 //      BOOLEAN
 var timer = false;
 var challenge = false;
-var firstPick = false;
 
 
 // Creating a "player info" object using constructor notation
@@ -33,7 +35,6 @@ function playerInfo(playerName, playerCountry, ) {
 }
 
 var player = new playerInfo('', ''); // Contains CURRENT player info
-
 
 // ------------------------------------------------------------
 
@@ -59,7 +60,7 @@ $(document).ready(function () {
 
         //////////////////////// GIPHY ////////////////////////
         $.ajax({
-            url: "https://api.giphy.com/v1/gifs/search?api_key=lKEjHvIVGBtk7Z1Ai1vo4y0bqkX3CHJp&q=numbers&limit=" + pairs,
+            url: "https://api.giphy.com/v1/gifs/search?api_key=lKEjHvIVGBtk7Z1Ai1vo4y0bqkX3CHJp&q=colors&limit=" + pairs,
             method: "GET"
         }).then(function (res) {
 
@@ -108,7 +109,7 @@ $(document).ready(function () {
         for (var c in cardsArray) {
 
             var cardDiv = $("<div>").addClass("card m-2");
-            var cardImg = $("<img>").attr("src", cardsArray[c]).attr("id", "front" + c).css("display", "none").addClass("staticgif card-img-top").appendTo(cardDiv);
+            var cardImg = $("<img>").attr("src", cardsArray[c]).attr("id", "frnt" + c).css("display", "none").addClass("staticgif card-img-top").appendTo(cardDiv);
             var cardback = $("<img>").attr("src", "https://placehold.it/100x100").attr("id", "back" + c).attr("data-url", cardsArray[c]).addClass("staticgif card-img-top").appendTo(cardDiv);
 
             // Append each card
@@ -120,14 +121,14 @@ $(document).ready(function () {
     function updateStats() {
 
         $("#info").html("");
+        console.log("update!")
         var gameStats = $("<h2>").text("Pairs matched: " + pairsMatched + "  Tries: " + tries).appendTo($("#info"));
     }
 
     // Click on back of card
     $("#gifs").on("click", ".staticgif", function () {
 
-        // If the same card is clicked twice do nothing
-        if (this.id.substr(4) === urlArray[0]) {
+        if (secondPick != "") {
             return;
         }
 
@@ -135,11 +136,24 @@ $(document).ready(function () {
         // Making sure to remove the first 4 characters
         var choice = this.id.substr(4);
 
+        // If the same card is clicked twice do nothing
+        if (this.id.substr(4) === firstPick) {
+            console.log("repeated");
+            return;
+        }
+
+        if (firstPick === "") {
+            firstPick = choice;
+        } else if (firstPick != "" && secondPick === "") {
+
+            secondPick = choice;
+        }
+
         // Hide the back of the card
         $("#back" + choice).hide();
 
         // Show the front of the card
-        $("#front" + choice).show();
+        $("#frnt" + choice).show();
 
         // Get the URL for the card
         urlArray.push(this.dataset.url)
@@ -147,15 +161,7 @@ $(document).ready(function () {
         // Get the INDEX for the card
         indexArray.push(choice);
 
-        if (!firstPick) {
-
-            // Marked that the first card was picked
-            firstPick = true;
-        } else {
-
-            // Switch back that the first card was picked
-            firstPick = false;
-
+        if (firstPick != "" && secondPick != "") {
             // Add a try to the list
             tries++;
 
@@ -164,34 +170,39 @@ $(document).ready(function () {
                 if (urlArray[0] === urlArray[1]) {
                     // The cards match, hide both cards
 
-                    console.log("CARDS MATCH!!");
+                    // console.log("CARDS MATCH!!");
 
                     // Hiding the front of the card
-                    $("#front" + indexArray[0]).css("visibility", "hidden");
-                    $("#front" + indexArray[1]).css("visibility", "hidden");
+                    $("#frnt" + indexArray[0]).css("visibility", "hidden");
+                    $("#frnt" + indexArray[1]).css("visibility", "hidden");
 
                     // Add a pair matched to the list
                     pairsMatched++;
 
                 } else {
                     // The cards dont match, flip tham back
-                    console.log("Not a match");
+                    // console.log("Not a match");
 
                     // Hide the back of the card
                     $("#back" + indexArray[0]).show();
-                    $("#front" + indexArray[0]).hide();
+                    $("#frnt" + indexArray[0]).hide();
                     $("#back" + indexArray[1]).show();
-                    $("#front" + indexArray[1]).hide();
+                    $("#frnt" + indexArray[1]).hide();
                 }
 
                 // Empty the URL and index array
                 urlArray = [];
                 indexArray = [];
 
+                // Switch back that the first card was picked
+                firstPick = "";
+                secondPick = "";
+
+                // Update the game stats
+                updateStats();
+
             }, 2000); // Wait this many miliseconds after the second card is picked
 
-            // Update the game stats
-            updateStats();
 
         }
 
