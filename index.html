@@ -25,6 +25,7 @@
 
     <!-- Reset CSS -->
     <link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
+
     <!-- Linking our own CSS -->
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 </head>
@@ -33,12 +34,14 @@
     <section class="container">
 
         <section id="header">
-            <div class="row">
+            <div class="row" id="app-logo">
                 <div class="col">
-                    <div class="app-logo" max-width="554px">
-                        <img src="assets/images/flipimg-logo.svg" alt="flipimg-logo">
-                        <h2>Superhero image matching game</h2>
-                    </div>
+                    <img src="assets/images/flipimg-logo.svg" alt="flipimg-logo" id="app-logo-img">
+                </div>
+            </div>
+            <div class="row" id="app-title">
+                <div class="col">
+                    <h2>Superhero image matching game</h2>
                 </div>
             </div>
         </section>
@@ -313,25 +316,57 @@
         </section>
 
         <section id="game">
-            <div class="row justify-content-end">
-                <div class="col-10">
+            <div class="row">
+                <div class="col-6">
                     <div id="gifBox">
                         <div id="gifs">
                             <!-- GIFS WILL BE POPULATED HERE -->
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+                <div class="col-5" id="stats">
 
-        <section id="stats">
-            <div class="row">
-                <div class="col">
-                    <div id="info">
-
+                    <div id="box-mode">
+                        <h1 id="mode_lbl">
+                            <!-- GAME STATS WILL BE POPULATED HERE -->
+                        </h1>
                     </div>
-                    <div id="clock">
 
+                    <div id="box-clock">
+                        <h3 class="label" id="clock_lbl">TIME:</h3>
+                        <div class="info" id="clock">0:00</div>
+                    </div>
+
+                    <div id="box-matches">
+                        <h3 class="label" id="matches_lbl">MATCHES:</h3>
+                        <div class="info" id="matches">0</div>
+                    </div>
+
+                    <div id="box-pairsm">
+                        <h3 class="label" id="pairsms_lbl">PAIRS MATCHED:</h3>
+                        <div class="info" id="pairsm">0</div>
+                    </div>
+
+                    <div id="box-tries">
+                        <h3 class="label" id="tries_lbl">TRIES:</h3>
+                        <div class="info" id="tries">0</div>
+                    </div>
+
+                    <div id="box-level">
+                        <h3 class="label" id="level_lbl">LEVEL:</h3>
+                        <div class="info" id="level">1</div>
+                    </div>
+
+                    <div id="box-buttons">
+                        <button class="btn btn-sm btn-info mr-3" id="leaderButton" type="button">Leaderboard</button>
+                        <button class="btn btn-sm btn-info mr-3" id="instButton" type="button">Game Instructions</button>
+                        <button class="btn btn-sm btn-info mr-3" id="quitButton" type="button">Leave current game</button>
+                    </div>
+
+                    <div>
+                        <div id="clock">
+                            <!-- CLOCK WILL BE POPULATED HERE -->
+                        </div>
                     </div>
                 </div>
             </div>
