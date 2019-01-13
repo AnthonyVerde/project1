@@ -7,7 +7,7 @@
     <title>FLIP.IMG</title>
 
     <!-- Add favicon -->
-    <!-- <link rel="icon" href="./static/idiaz_white-favicon.png"> -->
+    <link rel="icon" href="./static/flip_favicon.png">
 
     <!-- Link Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -57,9 +57,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="select-country">Choose your country:</label>
-                            <select name="" id="select-country" class="form-control">
+                            <label for="countryInput">Choose your country:</label>
+                            <select name="" id="countryInput" class="form-control">
                                 <option value="">Please select</option>
+                                <option value="Canada">Canada</option>
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Albania">Albania</option>
                                 <option value="Algeria">Algeria</option>
@@ -97,7 +98,6 @@
                                 <option value="Burundi">Burundi</option>
                                 <option value="Cambodia">Cambodia</option>
                                 <option value="Cameroon">Cameroon</option>
-                                <option value="Canada">Canada</option>
                                 <option value="Cape Verde">Cape Verde</option>
                                 <option value="Cayman Islands">Cayman Islands</option>
                                 <option value="Central African Republic">Central African Republic</option>
@@ -299,7 +299,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="nameInput">How many pairs:</label>
+                            <label for="pairsInput">How many pairs:</label>
                             <input type="number" class="form-control" id="pairsInput" value="4" min="2" max="10">
                         </div>
 
@@ -334,12 +334,7 @@
 
                     <div id="box-clock">
                         <h3 class="label" id="clock_lbl">TIME:</h3>
-                        <div class="info" id="clock">0:00</div>
-                    </div>
-
-                    <div id="box-matches">
-                        <h3 class="label" id="matches_lbl">MATCHES:</h3>
-                        <div class="info" id="matches">0</div>
+                        <div class="info" id="clock" style="visibility: hidden">0:00</div>
                     </div>
 
                     <div id="box-pairsm">
