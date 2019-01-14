@@ -42,9 +42,11 @@ var player = new playerInfo('', ''); // Contains CURRENT player info
 
 // ------------------------------------------------------------
 $("#container-leaderboard").hide();
-$("#leaderboard-btn").on("click", function() {
+
+$("#leaderboard-btn").on("click", function () {
     $("#container-leaderboard").fadeToggle(2000);
 });
+
 $("#input-fields").hide();
 
 
@@ -446,7 +448,7 @@ $(document).ready(function () {
         };
         // Save username and user country localy
         //userName = $('#nameInput').val().trim();
-       // userCountry = $('#countryInput').val().trim();
+        // userCountry = $('#countryInput').val().trim();
 
 
         // Get the mode from the button selected
@@ -579,7 +581,7 @@ $("#country-input-btn").on("click", function (event) {
     $("#flags").empty();
 
     //hide user input/btn to show input/btn for country 
-   $(this).parent().hide();
+    $(this).parent().hide();
     $("#input-fields").show();
 
 
@@ -610,11 +612,26 @@ var config = {
     projectId: "leader-board-717ef",
     storageBucket: "leader-board-717ef.appspot.com",
     messagingSenderId: "954867525887"
-};
+}; 
+
 firebase.initializeApp(config);
-
-
 var database = firebase.database();
+const db = firebase.firestore();                //without this line of code is a realtime database
+db.settings({timestampsInSnapshots: true});     //without this line of code is a realtime database
+
+// var configJuan = {
+//     apiKey: "AIzaSyAR1BzexHwtNHQ1VZOFjqsTVipSyWvfBnc",
+//     authDomain: "codingbootcamp-dc35e.firebaseapp.com",
+//     databaseURL: "https://codingbootcamp-dc35e.firebaseio.com",
+//     projectId: "codingbootcamp-dc35e",
+//     storageBucket: "codingbootcamp-dc35e.appspot.com",
+//     messagingSenderId: "765982769333"
+// };
+
+// firebase.initializeApp(configJuan);
+// var database = firebase.database();
+// const db = firebase.firestore();
+// db.settings({timestampsInSnapshots: true});
 
 
 // 2. Button for adding Payers to database
@@ -624,9 +641,6 @@ $("#add-player-btn").on("click", function (event) {
 
     $(this).parent().hide();
 
-    
-
-
     // Grabs user input
 
     var rankingInfo = $("#ranking").val().trim(); //info needed from game results
@@ -634,24 +648,25 @@ $("#add-player-btn").on("click", function (event) {
     var countryName = $("#country-input").val().trim();
     var scoreInfo = $("#score").val().trim(); //info needed from game results
 
-
     // Creates local "user-info" object for holding Player data
 
     var newPlayer = {
-       ranking: rankingInfo,
+        ranking: rankingInfo,
         user: username,
         country: urlFlagArray[0],
-       score: scoreInfo
+        score: scoreInfo
     };
 
     // Uploads player data to the database
     database.ref().push(newPlayer);
 
+    db.collection('Easy').add(newPlayer);
+
 
     $("#ranking").text(newPlayer.ranking); //Waiting for data from game
     $("#name-input").text(newPlayer.user);
     $("#country-input").text(newPlayer.country);
-    $("#score").text(newPlayer.score);  //Waiting for data from game
+    $("#score").text(newPlayer.score); //Waiting for data from game
 
 
     $("#ranking").val("");
@@ -690,4 +705,3 @@ database.ref().on("child_added", function (childSnapshot) {
 });
 
 //********API calls for flags and Firebase code for Leaderboard    END***************************************************/
-
