@@ -6,16 +6,16 @@
   <title>Favorite heroes</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
   <style>
-  body{
+    body{
     background-color: brown;
     color: white;
   }
   .container {
     text-align: center;
   }
-  .imgResult {
+  .imgResult, .imgResult2, .imgResult3, .imgResult4, .imgResult5 {
     width: 100px;
-    height: 150px;
+    height: 140px;
   }
 
   </style>
@@ -23,65 +23,158 @@
 
 <body>
   <div class="container">
-    <h1>Character Search</h1>
+    <h1>API imgs</h1>
 
-    <form id="char-form">
+    <button id="btn">Model 1</button>
+    <button id="btn2">Model 2</button>
+    <button id="btn3">Model 3</button>
 
-      <input id="search-input" type="text">
-
-      <button id="btn">Find Character by Name or ID (Number between 1 and 731)</button>
-     <br>
-    </form>
+    <br>
     <br>
     <div id="container">
       <div id="name-view" style="font-size: 20px; font-weight: bold"></div><br>
-      <div id="photo-view"><img src="spiderman.0.0.jpg" alt="Spiderman" height="400" width="500"></div>
+      <div id="photo-view1"></div> <br>
+      <div id="photo-view2"></div><br>
+      <div id="photo-view3"></div><br>
+      <div id="photo-view4"></div><br>
+      <div id="photo-view5"></div><br>
+      <div id="photo-view6"></div><br>
+      <div id="photo-view7"></div><br>
+      <div id="photo-view8"></div><br>
+      <div id="photo-view9"></div><br>
+      <div id="photo-view10"></div><br>
+
     </div>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
+
+      //call to API Mode 1
 
       $("#btn").on("click", function (event) {
 
         event.preventDefault();
 
-        var SEARCH = $("#search-input").val();
 
         const KEY = '10161297457820113';
+        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
 
-        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/${SEARCH}`;
-        var queryURL2 = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/${SEARCH}`;
+        //Empying out place-holder everytime btn is clicked
 
-
-        $("#photo-view").empty();
+        $("#photo-view1, #photo-view2, #photo-view3, #photo-view4, #photo-view5, #photo-view6, #photo-view7, #photo-view8, #photo-view9, #photo-view10").empty();
 
 
         $.ajax({
           url: queryURL,
           method: "GET"
         }).then(function (response) {
-          $("#name-view").text(JSON.stringify(response.results[0].image));
 
-          var heroImage = $("<img>").attr("src", response.results[0].image.url).addClass("imgResult");
-          $("#photo-view").append(heroImage);
+          function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+              var j = Math.floor(Math.random() * (i + 1));
+              var temp = array[i];
+              array[i] = array[j];
+              array[j] = temp;
+            }
+          }
+
+
+          //[22,23,50,57]
+
+          var randomNum = Math.floor(Math.random() * 63) + 1;
+
+
+          var heroImage = $("<img>").attr("src", response.results[randomNum].image.url).addClass("imgResult");
+          $("#photo-view1, #photo-view2").append(heroImage);
+          /*var heroImage2 = $("<img>").attr("src", response.results[11].image.url).addClass("imgResult2");
+          $("#photo-view3, #photo-view4").append(heroImage2);
+          var heroImage3 = $("<img>").attr("src", response.results[6].image.url).addClass("imgResult3");
+          $("#photo-view5, #photo-view6").append(heroImage3);
+          var heroImage4 = $("<img>").attr("src", response.results[1].image.url).addClass("imgResult4");
+          $("#photo-view7, #photo-view8").append(heroImage4);
+          var heroImage5 = $("<img>").attr("src", response.results[4].image.url).addClass("imgResult5");
+          $("#photo-view9, #photo-view10").append(heroImage5);*/
+
 
         });
+      });
+
+
+
+      //Call to API Mode 2
+
+
+      $("#btn2").on("click", function (event) {
+
+        event.preventDefault();
+
+
+        const KEY = '10161297457820113';
+        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
+
+        //Empying out place-holder everytime btn is clicked
+
+        $("#photo-view1, #photo-view2, #photo-view3, #photo-view4, #photo-view5, #photo-view6, #photo-view7, #photo-view8, #photo-view9, #photo-view10").empty();
+
 
         $.ajax({
-          url: queryURL2,
+          url: queryURL,
           method: "GET"
         }).then(function (response) {
-          $("#name-view").text(JSON.stringify(response.name));
 
-          var heroImage = $("<img>").attr("src", response.image.url).addClass("imgResult");
-          $("#photo-view").append(heroImage);
+
+          var heroImage = $("<img>").attr("src", response.results[0].image.url).addClass("imgResult");
+          $("#photo-view1, #photo-view2").append(heroImage);
+          var heroImage2 = $("<img>").attr("src", response.results[11].image.url).addClass("imgResult2");
+          $("#photo-view3, #photo-view4").append(heroImage2);
+          var heroImage3 = $("<img>").attr("src", response.results[6].image.url).addClass("imgResult3");
+          $("#photo-view5, #photo-view6").append(heroImage3);
+          var heroImage4 = $("<img>").attr("src", response.results[1].image.url).addClass("imgResult4");
+          $("#photo-view7, #photo-view8").append(heroImage4);
+          var heroImage5 = $("<img>").attr("src", response.results[4].image.url).addClass("imgResult5");
+          $("#photo-view9, #photo-view10").append(heroImage5);
+
 
         });
-
-
-
-
       });
+
+      //Call to API Mode 3
+
+
+      $("#btn3").on("click", function (event) {
+
+        event.preventDefault();
+
+
+        const KEY = '10161297457820113';
+        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
+
+        //Empying out place-holder everytime btn is clicked
+
+        $("#photo-view1, #photo-view2, #photo-view3, #photo-view4, #photo-view5, #photo-view6, #photo-view7, #photo-view8, #photo-view9, #photo-view10").empty();
+
+
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).then(function (response) {
+
+
+          var heroImage = $("<img>").attr("src", response.results[2].image.url).addClass("imgResult");
+          $("#photo-view1, #photo-view2").append(heroImage);
+          var heroImage2 = $("<img>").attr("src", response.results[15].image.url).addClass("imgResult2");
+          $("#photo-view3, #photo-view4").append(heroImage2);
+          var heroImage3 = $("<img>").attr("src", response.results[9].image.url).addClass("imgResult3");
+          $("#photo-view5, #photo-view6").append(heroImage3);
+          var heroImage4 = $("<img>").attr("src", response.results[3].image.url).addClass("imgResult4");
+          $("#photo-view7, #photo-view8").append(heroImage4);
+          var heroImage5 = $("<img>").attr("src", response.results[7].image.url).addClass("imgResult5");
+          $("#photo-view9, #photo-view10").append(heroImage5);
+
+
+        });
+      });
+
 
 
     </script>

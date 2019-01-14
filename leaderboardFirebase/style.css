@@ -1,0 +1,39 @@
+
+#container-leaderboard, #player-input, #card-container {
+    background-color: rgb(8, 95, 226);
+    width: 570px;
+    margin: auto;
+    
+}
+
+#formInfo {
+    width: 250px;
+    margin: auto;
+}
+
+#top-container {
+    width: 570px;
+    margin: auto;
+    padding: 15px;
+}
+
+.dateTime {
+    text-align: center;    
+}
+
+tr {
+   width: 300px;
+   margin:auto;
+}
+
+#card-header {
+    text-align: center;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+}
+
+.flagSmall {
+    width:40px;
+    height: 20px;
+}

@@ -19,7 +19,6 @@ for (i=0; i < response.length; i++) {
   var result = response[i].flag;
 }
 
-console.log(i);
 
   var flagImage = $("<img>").attr("src", result).addClass("flagSmall");
   $("#flags").append(flagImage);
