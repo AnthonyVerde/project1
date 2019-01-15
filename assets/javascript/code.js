@@ -44,6 +44,55 @@ var player = new playerInfo('', ''); // Contains CURRENT player info
 
 $(document).ready(function () {
 
+    // Show the value of all variables
+    function allVariablesInfo() {
+        console.log('intervalId: ' + intervalId);
+        console.log('cardsArray: ' + cardsArray);
+        console.log('urlArray: ' + urlArray);
+        console.log('indexArray: ' + indexArray);
+        console.log('userName: ' + userName);
+        console.log('userCountry: ' + userCountry);
+        console.log('mode: ' + mode);
+        console.log('firstPick: ' + firstPick);
+        console.log('secondPick: ' + secondPick);
+        console.log('pairs: ' + pairs);
+        console.log('tries: ' + tries);
+        console.log('timeToBeat: ' + timeToBeat);
+        console.log('time: ' + time);
+        console.log('timeUsed: ' + timeUsed);
+        console.log('level: ' + level);
+        console.log('pairsMatched: ' + pairsMatched);
+        console.log('overallTime: ' + overallTime);
+        console.log('overallTries: ' + overallTries);
+        console.log('timer: ' + timer);
+        console.log('challenge: ' + challenge);
+        console.log('finishGame: ' + finishGame);
+        console.log('player: ' + player);
+    }
+
+    // Reset variables for a new game
+    function freshStart(full) {
+
+        if (full) { // Clear user name and country if TRUE
+            userName = "";
+            userCountry = "";
+        };
+
+        mode = "";
+        pairs = 2;
+        tries = 0;
+        timeToBeat = 20;
+        time = 0;
+        timeUsed = 0;
+        level = 1;
+        pairsMatched = 0;
+        overallTime = 0;
+        overallTries = 0;
+        timer = false;
+        challenge = false;
+        finishGame = false;
+    }
+
     // Start a game
     function startGame(pairs) {
 
@@ -277,8 +326,13 @@ $(document).ready(function () {
 
             default: // NO mode... first load
                 console.log("DEFAULT MODE");
+
+                $('#nameInput').val(userName);
+                $('#countryInput').val(userCountry);
+
                 $("#welcome").show();
                 $("#game").hide();
+
                 break;
         }
     };
@@ -353,7 +407,6 @@ $(document).ready(function () {
     };
 
     //  BUTTON LOGIC
-
 
     // Click on back of card
     $("#gifs").on("click", ".staticgif", function () {
@@ -542,8 +595,8 @@ $(document).ready(function () {
     // Player select to play AGAIN after the game ended
     $("#playAgain").click(function () {
 
-        // Reset variables - keep player name and country
-        freshStart();
+        // Reset variables - FALSE = keep player name and country
+        freshStart(false);
 
         // Hide the modal
         $("#modalGameUpdate").modal("hide");
@@ -552,49 +605,6 @@ $(document).ready(function () {
         updateScreen();
 
     });
-
-    function allVariablesInfo() {
-        console.log('intervalId: ' + intervalId);
-        console.log('cardsArray: ' + cardsArray);
-        console.log('urlArray: ' + urlArray);
-        console.log('indexArray: ' + indexArray);
-        console.log('userName: ' + userName);
-        console.log('userCountry: ' + userCountry);
-        console.log('mode: ' + mode);
-        console.log('firstPick: ' + firstPick);
-        console.log('secondPick: ' + secondPick);
-        console.log('pairs: ' + pairs);
-        console.log('tries: ' + tries);
-        console.log('timeToBeat: ' + timeToBeat);
-        console.log('time: ' + time);
-        console.log('timeUsed: ' + timeUsed);
-        console.log('level: ' + level);
-        console.log('pairsMatched: ' + pairsMatched);
-        console.log('overallTime: ' + overallTime);
-        console.log('overallTries: ' + overallTries);
-        console.log('timer: ' + timer);
-        console.log('challenge: ' + challenge);
-        console.log('finishGame: ' + finishGame);
-        console.log('player: ' + player);
-    }
-
-    function freshStart() {
-        mode = "";
-        pairs = 2;
-        tries = 0;
-        timeToBeat = 20;
-        time = 0;
-        timeUsed = 0;
-        level = 1;
-        pairsMatched = 0;
-        overallTime = 0;
-        overallTries = 0;
-        timer = false;
-        challenge = false;
-        finishGame = false;
-
-    }
-
 
     // Play next game
     $("#nextButton").on("click", function () {
@@ -676,6 +686,4 @@ $(document).ready(function () {
 
     // Update screen
     updateScreen();
-
-
 });
