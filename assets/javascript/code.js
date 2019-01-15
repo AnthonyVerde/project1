@@ -46,6 +46,7 @@ $(document).ready(function () {
 
     // Show the value of all variables
     function allVariablesInfo() {
+        console.log('------ ALL VARIABLE DUMP ------');
         console.log('intervalId: ' + intervalId);
         console.log('cardsArray: ' + cardsArray);
         console.log('urlArray: ' + urlArray);
@@ -68,6 +69,7 @@ $(document).ready(function () {
         console.log('challenge: ' + challenge);
         console.log('finishGame: ' + finishGame);
         console.log('player: ' + player);
+        console.log('-------------------------------');
     }
 
     // Reset variables for a new game
@@ -91,10 +93,20 @@ $(document).ready(function () {
         timer = false;
         challenge = false;
         finishGame = false;
+        urlArray = [];
+        indexArray = [];
+
     }
 
     // Start a game
     function startGame(pairs) {
+
+        // Reseting variables for a new game
+        finishGame = false;
+        tries = 0;
+        pairsMatched = 0;
+        urlArray = [];
+        indexArray = [];
 
         console.log("Starting level " + level + " in mode " + mode);
 
@@ -143,6 +155,8 @@ $(document).ready(function () {
                     break;
             }
 
+            console.log("TIme for level: " + level + " is " + time);
+
             time = timeToBeat;
         };
 
@@ -151,13 +165,17 @@ $(document).ready(function () {
 
         //Update screen
         updateScreen()
+
+        // Log all variables
+        allVariablesInfo()
     };
 
-    /*******************************************
-     * Randomize array element order in-place. *
-     * Using Durstenfeld shuffle algorithm.    *
-     *******************************************/
+    // Shuffles the elements of the array
     function shuffleArray(array) {
+        /*******************************************
+         * Randomize array element order in-place. *
+         * Using Durstenfeld shuffle algorithm.    *
+         *******************************************/
         for (var i = array.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = array[i];
@@ -174,9 +192,9 @@ $(document).ready(function () {
         //////////////////////// superheroapi ////////////////////////
         const KEY = '10161297457820113';
 
-        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
+        // var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
         // var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/10161297457820113/search/man`;
-        // var queryURL = `http://superheroapi.com/api.php/${KEY}/search/man`;
+        var queryURL = `http://superheroapi.com/api.php/${KEY}/search/man`;
 
         $.ajax({
             url: queryURL,
@@ -288,7 +306,11 @@ $(document).ready(function () {
     // Update the screen
     function updateScreen() {
 
-        console.log("UPDATING");
+        console.log("Updating SCREEN");
+
+        $("#pairsm").text(pairsMatched);
+        $("#tries").text(tries);
+        $("#level").text(level);
 
         switch (mode) {
             case 'easy': // EASY mode
@@ -298,6 +320,10 @@ $(document).ready(function () {
 
                 $("#box-clock").hide();
                 $("#box-level").hide();
+
+                $("#app-logo").css("text-align", "start");
+                $("#app-logo-img").css("width", "290px");
+                $("#app-title").hide();
 
                 updateStats();
                 break;
@@ -310,6 +336,10 @@ $(document).ready(function () {
                 $("#box-clock").show();
                 $("#box-level").hide();
 
+                $("#app-logo").css("text-align", "start");
+                $("#app-logo-img").css("width", "290px");
+                $("#app-title").hide();
+
                 updateStats();
                 break;
 
@@ -320,6 +350,10 @@ $(document).ready(function () {
 
                 $("#box-clock").show();
                 $("#box-level").show();
+
+                $("#app-logo").css("text-align", "start");
+                $("#app-logo-img").css("width", "290px");
+                $("#app-title").hide();
 
                 updateStats();
                 break;
@@ -333,6 +367,10 @@ $(document).ready(function () {
                 $("#welcome").show();
                 $("#game").hide();
 
+                $("#app-logo").css("text-align", "center");
+                $("#app-logo-img").css("width", "553px");
+                $("#app-title").show();
+
                 break;
         }
     };
@@ -340,10 +378,7 @@ $(document).ready(function () {
     // Update player stats
     function updateStats() {
 
-        $("#app-logo").css("text-align", "start");
-        $("#app-logo-img").css("width", "290px");
-        $("#app-title").hide();
-
+        console.log("Updating STATS");
 
         $("#mode_lbl").text(mode.toLocaleUpperCase() + " MODE");
 
@@ -363,50 +398,73 @@ $(document).ready(function () {
             overallTries = overallTries + tries;
             level = pairs - 1;
 
-            console.log("=== End of game stats ===");
-            console.log("Name: " + userName);
-            console.log("Country: " + userCountry);
-            console.log("Level finished: " + level);
-            console.log("Time used: " + timeUsed);
-            console.log("Tries used: " + tries);
-            console.log("Matched pairs: " + pairsMatched);
-            console.log("      --- OVERALL ---");
-            console.log("Overall time used: " + overallTime);
-            console.log("Overall tries used: " + overallTries);
-            console.log("=========================");
+            // console.log("=== End of game stats ===");
+            // console.log("Name: " + userName);
+            // console.log("Country: " + userCountry);
+            // console.log("Level finished: " + level);
+            // console.log("Time used: " + timeUsed);
+            // console.log("Tries used: " + tries);
+            // console.log("Matched pairs: " + pairsMatched);
+            // console.log("      --- OVERALL ---");
+            // console.log("Overall time used: " + overallTime);
+            // console.log("Overall tries used: " + overallTries);
+            // console.log("=========================");
+
+            // Prepare "you found all pairs" message on GameUpdate modal:
+
+            // Clear all content
+            $("#updateText").html("");
+
+            // Add the star image
+            var img = $("<img>").attr("src", "assets/images/star.png").attr("id", "updateImage").appendTo($("#updateText"));
+
+            // Set the massage
+            var msg = $("<div>").html("<h5>YOU FOUND ALL <br> THE MATCHES!</h5>");
+
+            // Show the PLAY AGAIN button from Game Update modal
+            $("#playAgain").show();
+
+            // Hide the PLAY NEXT button from Game Update modal
+            $("#playNext").hide();
 
             if (mode === 'challenge') {
 
-                if (level < 10) {
+                // Hide the PLAY AGAIN button from Game Update modal
+                $("#playAgain").hide();
+
+                if (level === 10) { // All levels completed on CHALLENGE mode.
                     console.log("HERE");
-                    var newButton = $("<button>").addClass("btn btn-sm btn-info mr-3").attr("id", "nextButton").attr("type", "button").text("Play next level").appendTo($("#box-buttons"));
-                    // $("#box-buttons").append(newButton);
-                    // var newButton = $("<button>").html('<button class="btn btn-sm btn-info mr-3" id="nextButton" type="button">Play next level</button>').append($("#box-button"));                
-                    pairs++;
-                } else {
-                    // All levels finished on CHALLENGE mode
+
+                    // Set the massage
+                    msg = $("<div>").html("<h5>YOU FOUND ALL<br>THE MATCHES ON<br>ALL LEVELS!</h5>").appendTo($("#updateText"));
+
+                } else if (level < 9) { // Game done for CHALLENGE modes:
+
+                    // Set the massage
+                    msg = $("<div>").html("<h5>YOU FINISHED LEVEL " + level + "<br>GO TO THE NEXT ONE</h5>").appendTo($("#updateText"));
+
+                    // Show the PLAY NEXT button from Game Update modal
+                    $("#playNext").show();
+
                 }
+            } else { // Game done for EASY and TIMED modes
+
             }
 
-            // var gameStats = $("<h1>").text("FOUND ALL PAIRS!").appendTo($("#info"));
+            // Append message to modal
+            $("#updateText").append(msg);
 
-            // Set update message on GameUpdate modal
-            $("#updateText").text("YOU FOUND ALL PAIRS! Do you want to play again?");
-
-            // Display ALERT modal
+            // Display Game Update modal
             $("#modalGameUpdate").modal({
                 backdrop: 'static',
                 keyboard: false
             });
-
-
-
         }
-
-
     };
 
-    //  BUTTON LOGIC
+    // ********************************
+    // **        BUTTON logic        **
+    // ********************************
 
     // Click on back of card
     $("#gifs").on("click", ".staticgif", function () {
@@ -598,7 +656,7 @@ $(document).ready(function () {
         // Reset variables - FALSE = keep player name and country
         freshStart(false);
 
-        // Hide the modal
+        // Hide the Game Update modal
         $("#modalGameUpdate").modal("hide");
 
         // Update screen
@@ -606,13 +664,62 @@ $(document).ready(function () {
 
     });
 
+    // Quit the current game - and return to welcom screen
+    $("#quitButton").click(function () {
+
+        // Reset variables - FALSE = keep player name and country
+        freshStart(false);
+
+        // Stop countdown timer
+        timerStop();
+
+        // Update screen
+        updateScreen();
+
+    });
+
     // Play next game
-    $("#nextButton").on("click", function () {
+    $("#playNext").on("click", function () {
+
+        // Hide the Game Update modal
+        $("#modalGameUpdate").modal("hide");
+
+        // Increase number of pairs
+        pairs++;
+
         // Start game
         startGame(pairs);
     })
 
-    /********** ALL TIMER RELATED FUNCTIONS **********/
+    // Show leader board
+    $("#leaderButton").on("click", function () {
+
+        // Hide the Game Update modal
+        $("#modalGameUpdate").modal("hide");
+
+        // Show modalLeaderboard
+        $("#modalLeaderboard").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
+    })
+
+    // Show instructions
+    $("#instButton").on("click", function () {
+
+        // Show modalInstructions
+        $("#modalInstructions").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
+    })
+
+    // ********************************
+    // **         TIME logic         **
+    // ********************************
+
     function timerRun() {
 
         // Stop timer
@@ -642,11 +749,16 @@ $(document).ready(function () {
         //  When run out of time...
         if (time <= 0) {
 
-            //  Update the time 
-            // $("#clock").text("Time's up!");
+            // Prepare "out of time" message on GameUpdate modal:
 
-            // Set update message on GameUpdate modal
-            $("#updateText").text("YOUR TIME IS UP... try again!");
+            // Clear all content
+            $("#updateText").html("");
+
+            // Add the clock image
+            var img = $("<img>").attr("src", "assets/images/clock.png").attr("id", "updateImage").appendTo($("#updateText"));
+
+            // Set the massage
+            var msg = $("<div>").html("<h5>YOUR TIME<br>IS UP!</h5>").appendTo($("#updateText"));
 
             // Display ALERT modal
             $("#modalGameUpdate").modal({
@@ -684,6 +796,6 @@ $(document).ready(function () {
 
     /*************************************************/
 
-    // Update screen
+    // Update screen on the first load
     updateScreen();
 });
