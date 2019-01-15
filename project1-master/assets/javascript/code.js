@@ -9,8 +9,8 @@ var urlArray = []; // Will hold the URL of card one and card two
 var indexArray = []; // Will hold the index of card one and card two
 
 //      STRINGS/CHAR
-//var userName = ''; // User's name
-//var userCountry = ''; // User's country name
+var userName = ''; // User's name
+var userCountry = ''; // User's country name
 var mode = ''; // Type of game selected [EASY, TIMED, CHALLENGE]
 var firstPick = ""; // Index of the first card picked
 var secondPick = ""; // Index of the second card picked
@@ -43,14 +43,64 @@ var player = new playerInfo('', ''); // Contains CURRENT player info
 // ------------------------------------------------------------
 $("#container-leaderboard").hide();
 
-$("#leaderboard-btn").on("click", function () {
+$("#showLeaderboard", "#showLeaderboardInBox", "#showLeaderboardInModalFooter").on("click", function () {
     $("#container-leaderboard").fadeToggle(2000);
 });
 
 $("#input-fields").hide();
 
+//--------------------------------------------------------------
 
 $(document).ready(function () {
+
+    // Show the value of all variables
+    function allVariablesInfo() {
+        console.log('intervalId: ' + intervalId);
+        console.log('cardsArray: ' + cardsArray);
+        console.log('urlArray: ' + urlArray);
+        console.log('indexArray: ' + indexArray);
+        console.log('userName: ' + userName);
+        console.log('userCountry: ' + userCountry);
+        console.log('mode: ' + mode);
+        console.log('firstPick: ' + firstPick);
+        console.log('secondPick: ' + secondPick);
+        console.log('pairs: ' + pairs);
+        console.log('tries: ' + tries);
+        console.log('timeToBeat: ' + timeToBeat);
+        console.log('time: ' + time);
+        console.log('timeUsed: ' + timeUsed);
+        console.log('level: ' + level);
+        console.log('pairsMatched: ' + pairsMatched);
+        console.log('overallTime: ' + overallTime);
+        console.log('overallTries: ' + overallTries);
+        console.log('timer: ' + timer);
+        console.log('challenge: ' + challenge);
+        console.log('finishGame: ' + finishGame);
+        console.log('player: ' + player);
+    }
+
+    // Reset variables for a new game
+    function freshStart(full) {
+
+        if (full) { // Clear user name and country if TRUE
+            userName = "";
+            userCountry = "";
+        };
+
+        mode = "";
+        pairs = 2;
+        tries = 0;
+        timeToBeat = 20;
+        time = 0;
+        timeUsed = 0;
+        level = 1;
+        pairsMatched = 0;
+        overallTime = 0;
+        overallTries = 0;
+        timer = false;
+        challenge = false;
+        finishGame = false;
+    }
 
     // Start a game
     function startGame(pairs) {
@@ -157,7 +207,8 @@ $(document).ready(function () {
                     case 23:
                     case 50:
                     case 57:
-                        // Yup... no images for these indexes... try again
+                        // Yup... no images for these indexes... try again.
+
                         //console.log("Selected: " + index + "  Trying again");
 
                         // Reduce the iteration variable so to get a new value
@@ -248,9 +299,8 @@ $(document).ready(function () {
 
         console.log("UPDATING");
 
-
         switch (mode) {
-            case 'easy':
+            case 'easy': // EASY mode
                 console.log("EASY MODE");
                 $("#welcome").hide();
                 $("#game").show();
@@ -261,7 +311,7 @@ $(document).ready(function () {
                 updateStats();
                 break;
 
-            case 'timed':
+            case 'timed': // TIMED mode
                 console.log("TIMED MODE");
                 $("#welcome").hide();
                 $("#game").show();
@@ -272,7 +322,7 @@ $(document).ready(function () {
                 updateStats();
                 break;
 
-            case 'challenge':
+            case 'challenge': // CHALLENGE mode
                 console.log("CHALLENGE MODE");
                 $("#welcome").hide();
                 $("#game").show();
@@ -283,11 +333,15 @@ $(document).ready(function () {
                 updateStats();
                 break;
 
-            default:
+            default: // NO mode... first load
                 console.log("DEFAULT MODE");
+
+                $('#nameInput').val(userName);
+                $('#countryInput').val(userCountry);
+
                 $("#welcome").show();
                 $("#game").hide();
-                // $("#stats").hide();
+
                 break;
         }
     };
@@ -300,7 +354,7 @@ $(document).ready(function () {
         $("#app-title").hide();
 
 
-        $("#mode_lbl").text(mode.toLocaleUpperCase() + "MODE");
+        $("#mode_lbl").text(mode.toLocaleUpperCase() + " MODE");
 
         if (!finishGame) {
             $("#pairsm").text(pairsMatched);
@@ -344,10 +398,24 @@ $(document).ready(function () {
             }
 
             // var gameStats = $("<h1>").text("FOUND ALL PAIRS!").appendTo($("#info"));
+
+            // Set update message on GameUpdate modal
+            $("#updateText").text("YOU FOUND ALL PAIRS! Do you want to play again?");
+
+            // Display ALERT modal
+            $("#modalGameUpdate").modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+
+
+
         }
 
 
     };
+
+    //  BUTTON LOGIC
 
     // Click on back of card
     $("#gifs").on("click", ".staticgif", function () {
@@ -442,46 +510,110 @@ $(document).ready(function () {
     $(".btnPlay").on("click", function (e) {
         e.preventDefault();
 
+        // If player has not entered name or country show elart message
         if ($('#nameInput').val() === "" || $('#countryInput').val() === "") {
-            alert("YOU NEED TO ENTER A USERNAME AND A SELECT A VALID COUNTRY");
+
+            // Set error message on ALERT modal
+            $("#errorText").text("YOU NEED TO ENTER A USERNAME AND A SELECT A VALID COUNTRY");
+
+            // Display ALERT modal
+            $("#modalAlert").modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+
+            // Exit
             return;
         };
-        // Save username and user country localy
-        //userName = $('#nameInput').val().trim();
+//------------------------------------------------------------------------------------------------//
+        // // Save username and user country localy        conflict with Alex's code
+        // userName = $('#nameInput').val().trim();
         // userCountry = $('#countryInput').val().trim();
-
+//------------------------------------------------------------------------------------------------//
 
         // Get the mode from the button selected
         mode = this.id;
 
-        // Get the # of pairs from the input form
-        pairs = parseInt($('#pairsInput').val().trim());
-
         switch (mode) {
             // EASY mode
-            case 'easy':
+            case 'easy': // EASY mode
+
+                // Show modalPairs to ask the player how many pairs
+                $("#modalPairs").modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+
+                // Don't show/need countdown timer
                 timer = false;
+
+                // Not challenge mode
                 challenge = false;
+
                 break;
 
-            case 'timed':
-                // TIMED mode
+            case 'timed': // TIMED mode
+
+                // Show modalPairs to ask the player how many pairs
+                $("#modalPairs").modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+
+                // Show/need countdown timer
                 timer = true;
+
+                // Not challenge mode
                 challenge = false;
+
                 break;
 
-            case 'challenge':
-                // CHALLENGE mode
+            case 'challenge': // CHALLENGE mode
+
+                // Start the challenge with 2 pairs
                 pairs = 2;
+
+                // Show/need countdown timer
                 timer = true;
+
+                // Enable challenge mode
                 challenge = true;
+
+                // Start game
+                startGame(pairs);
+
                 break;
         };
 
-        //console.log("Welcome player " + userName + ", from " + userCountry);
+    });
+
+    // Player select how many pairs to play with
+    $("#play").click(function () {
+
+        // Get the # of pairs from the input form
+        pairs = parseInt($('#pairsInput').val().trim());
+
+        // console.log("Seelcted to play with " + pairs + " pairs.");
+
+        // Hide the modal
+        $("#modalPairs").modal("hide");
 
         // Start game
         startGame(pairs);
+    });
+
+    // Player select to play AGAIN after the game ended
+    $("#playAgain").click(function () {
+
+        // Reset variables - FALSE = keep player name and country
+        freshStart(false);
+
+        // Hide the modal
+        $("#modalGameUpdate").modal("hide");
+
+        // Update screen
+        updateScreen();
+
     });
 
     // Play next game
@@ -521,7 +653,16 @@ $(document).ready(function () {
         if (time <= 0) {
 
             //  Update the time 
-            $("#clock").text("Time's up!");
+            // $("#clock").text("Time's up!");
+
+            // Set update message on GameUpdate modal
+            $("#updateText").text("YOUR TIME IS UP... try again!");
+
+            // Display ALERT modal
+            $("#modalGameUpdate").modal({
+                backdrop: 'static',
+                keyboard: false
+            });
 
             // Stop timer
             timerStop();
@@ -555,9 +696,9 @@ $(document).ready(function () {
 
     // Update screen
     updateScreen();
-
-
 });
+
+
 
 //************************Adding code Alex's code **************/
 
@@ -619,19 +760,6 @@ var database = firebase.database();
 const db = firebase.firestore();                //without this line of code is a realtime database
 db.settings({timestampsInSnapshots: true});     //without this line of code is a realtime database
 
-// var configJuan = {
-//     apiKey: "AIzaSyAR1BzexHwtNHQ1VZOFjqsTVipSyWvfBnc",
-//     authDomain: "codingbootcamp-dc35e.firebaseapp.com",
-//     databaseURL: "https://codingbootcamp-dc35e.firebaseio.com",
-//     projectId: "codingbootcamp-dc35e",
-//     storageBucket: "codingbootcamp-dc35e.appspot.com",
-//     messagingSenderId: "765982769333"
-// };
-
-// firebase.initializeApp(configJuan);
-// var database = firebase.database();
-// const db = firebase.firestore();
-// db.settings({timestampsInSnapshots: true});
 
 
 // 2. Button for adding Payers to database

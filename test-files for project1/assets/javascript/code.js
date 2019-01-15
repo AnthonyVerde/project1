@@ -3,25 +3,28 @@
 //      OBJECTS
 var intervalId; // Holds setInterval that runs the stopwatch
 
-
 //      ARRAYS
 var cardsArray = []; // Will hold the URLs fr all cards in te grid
 var urlArray = []; // Will hold the URL of card one and card two
 var indexArray = []; // Will hold the index of card one and card two
 
 //      STRINGS/CHAR
-var userName = ''; // User's name
-var userCountry = ''; // User's country name
+//var userName = ''; // User's name
+//var userCountry = ''; // User's country name
 var mode = ''; // Type of game selected [EASY, TIMED, CHALLENGE]
 var firstPick = ""; // Index of the first card picked
 var secondPick = ""; // Index of the second card picked
 
 //      NUMBER/INTEGER
-var pairs = 0; // Pair of cards that will be in the grid
+var pairs = 2; // Pair of cards that will be in the grid
 var tries = 0; // Number of pairs fliped in a game
-var time = 0; // Time to beat every game
-var games = 0; // Number of games played
+var timeToBeat = 20; // Time to beat every game
+var time = 0; // TIme used to start the timer - comes from timeToBeat
+var timeUsed = 0; // Time used to finish the last game
+var level = pairs - 1; // Number of games played
 var pairsMatched = 0; // Number of pairs matched in a game
+var overallTime = 0; // Added time used for the CHALLENGE mode
+var overallTries = 0; // Added number of tries used for the CHALLENGE mode
 
 //      BOOLEAN
 var timer = false; // The game requires to show and use timer
@@ -33,22 +36,81 @@ var finishGame = false; // TRUE if all pairs have been found in a game
 function playerInfo(playerName, playerCountry, ) {
     this.name = playerName; // Player's name
     this.country = playerCountry; // Player's choice
-}
+};
 
 var player = new playerInfo('', ''); // Contains CURRENT player info
 
 // ------------------------------------------------------------
+$("#container-leaderboard").hide();
 
-// $("#container-leaderboard").hide();
-$("#leaderboard-btn").on("click", function() {
+$("#leaderboard-btn").on("click", function () {
     $("#container-leaderboard").fadeToggle(2000);
 });
+
 $("#input-fields").hide();
 
 
 $(document).ready(function () {
 
-    // $("#gifBox").css("pointer-events","none");
+    // Start a game
+    function startGame(pairs) {
+
+        console.log("Starting level " + level + " in mode " + mode);
+
+        // Setting variables for the TIMED and CHALLENGE modes 
+        if (mode === 'timed' || mode === 'challenge') {
+
+            // Calculate level numer based on the number of PAIRS
+            level = pairs - 1;
+
+            // Calculate amount of time per game based on the number of PAIRS
+            switch (parseInt(pairs)) {
+                case 2:
+                    timeToBeat = 20;
+                    break;
+
+                case 3:
+                    timeToBeat = 32;
+                    break;
+
+                case 4:
+                    timeToBeat = 39;
+                    break;
+
+                case 5:
+                    timeToBeat = 48;
+                    break;
+
+                case 6:
+                    timeToBeat = 59;
+                    break;
+
+                case 7:
+                    timeToBeat = 72;
+                    break;
+
+                case 8:
+                    timeToBeat = 87;
+                    break;
+
+                case 9:
+                    timeToBeat = 104;
+                    break;
+
+                case 10:
+                    timeToBeat = 123;
+                    break;
+            }
+
+            time = timeToBeat;
+        };
+
+        // Get the URL to the GIFs
+        getGifURL();
+
+        //Update screen
+        updateScreen()
+    };
 
     /*******************************************
      * Randomize array element order in-place. *
@@ -61,7 +123,7 @@ $(document).ready(function () {
             array[i] = array[j];
             array[j] = temp;
         }
-    }
+    };
 
     // Use the API to get the URL to the GIFs used on the card's front
     function getGifURL() {
@@ -71,9 +133,9 @@ $(document).ready(function () {
         //////////////////////// superheroapi ////////////////////////
         const KEY = '10161297457820113';
 
-        //var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
-        var queryURL = `http://superheroapi.com/api.php/${KEY}/search/man`;
-
+        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
+        // var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/10161297457820113/search/man`;
+        // var queryURL = `http://superheroapi.com/api.php/${KEY}/search/man`;
 
         $.ajax({
             url: queryURL,
@@ -118,7 +180,7 @@ $(document).ready(function () {
         });
         //////////////////////////////////////////////////////////////
 
-    }
+    };
 
     // Show the cards in the board
     function displayCards() {
@@ -137,7 +199,7 @@ $(document).ready(function () {
 
             default:
                 // For 5 pairs or more
-                var boxWidth = 490; 
+                var boxWidth = 490;
                 break;
         }
 
@@ -163,18 +225,28 @@ $(document).ready(function () {
 
             // Append each card
             $("#gifs").append(cardDiv);
-        }
-    }
+        };
+
+        // Start the countdown clock for the TIMED and CHALLENGE modes 
+        if (mode === 'timed' || mode === 'challenge') {
+            console.log("calling the clock with " + time + " seconds");
+            timerRun(time);
+
+            $("#box-clock").show();
+
+        } else {
+
+        };
+
+
+
+
+    };
 
     // Update the screen
     function updateScreen() {
 
         console.log("UPDATING");
-
-        console.log("calling the clock")
-        if (mode === "timed" || mode === "challenge") {
-            timerRun(128);
-        } else {}
 
 
         switch (mode) {
@@ -184,7 +256,6 @@ $(document).ready(function () {
                 $("#game").show();
 
                 $("#box-clock").hide();
-                $("#box-matches").hide();
                 $("#box-level").hide();
 
                 updateStats();
@@ -196,7 +267,6 @@ $(document).ready(function () {
                 $("#game").show();
 
                 $("#box-clock").show();
-                $("#box-matches").hide();
                 $("#box-level").hide();
 
                 updateStats();
@@ -208,7 +278,6 @@ $(document).ready(function () {
                 $("#game").show();
 
                 $("#box-clock").show();
-                $("#box-matches").show();
                 $("#box-level").show();
 
                 updateStats();
@@ -234,16 +303,51 @@ $(document).ready(function () {
         $("#mode_lbl").text(mode.toLocaleUpperCase() + "MODE");
 
         if (!finishGame) {
-            $("#matches").text(matches);
             $("#pairsm").text(pairsMatched);
             $("#tries").text(tries);
             $("#level").text(level);
+
         } else {
-            var gameStats = $("<h1>").text("FOUND ALL PAIRS!").appendTo($("#info"));
+            // If all pairs have been found in a game
+
+            // Stop countdown timer
+            timerStop();
+
+            timeUsed = timeToBeat - time;
+            overallTime = overallTime + timeUsed;
+            overallTries = overallTries + tries;
+            level = pairs - 1;
+
+            console.log("=== End of game stats ===");
+            console.log("Name: " + userName);
+            console.log("Country: " + userCountry);
+            console.log("Level finished: " + level);
+            console.log("Time used: " + timeUsed);
+            console.log("Tries used: " + tries);
+            console.log("Matched pairs: " + pairsMatched);
+            console.log("      --- OVERALL ---");
+            console.log("Overall time used: " + overallTime);
+            console.log("Overall tries used: " + overallTries);
+            console.log("=========================");
+
+            if (mode === 'challenge') {
+
+                if (level < 10) {
+                    console.log("HERE");
+                    var newButton = $("<button>").addClass("btn btn-sm btn-info mr-3").attr("id", "nextButton").attr("type", "button").text("Play next level").appendTo($("#box-buttons"));
+                    // $("#box-buttons").append(newButton);
+                    // var newButton = $("<button>").html('<button class="btn btn-sm btn-info mr-3" id="nextButton" type="button">Play next level</button>').append($("#box-button"));                
+                    pairs++;
+                } else {
+                    // All levels finished on CHALLENGE mode
+                }
+            }
+
+            // var gameStats = $("<h1>").text("FOUND ALL PAIRS!").appendTo($("#info"));
         }
 
 
-    }
+    };
 
     // Click on back of card
     $("#gifs").on("click", ".staticgif", function () {
@@ -332,17 +436,26 @@ $(document).ready(function () {
 
         }
 
-    })
+    });
 
     // Player selects play mode
     $(".btnPlay").on("click", function (e) {
         e.preventDefault();
 
+        if ($('#nameInput').val() === "" || $('#countryInput').val() === "") {
+            alert("YOU NEED TO ENTER A USERNAME AND A SELECT A VALID COUNTRY");
+            return;
+        };
+        // Save username and user country localy
+        //userName = $('#nameInput').val().trim();
+        // userCountry = $('#countryInput').val().trim();
+
+
         // Get the mode from the button selected
         mode = this.id;
 
         // Get the # of pairs from the input form
-        pairs = $('#pairsInput').val();
+        pairs = parseInt($('#pairsInput').val().trim());
 
         switch (mode) {
             // EASY mode
@@ -359,45 +472,49 @@ $(document).ready(function () {
 
             case 'challenge':
                 // CHALLENGE mode
+                pairs = 2;
                 timer = true;
                 challenge = true;
                 break;
-        }
+        };
 
-        // Get the URL to the GIFs
-        getGifURL();
+        //console.log("Welcome player " + userName + ", from " + userCountry);
 
-        //Update screen
-        updateScreen()
+        // Start game
+        startGame(pairs);
+    });
 
+    // Play next game
+    $("#nextButton").on("click", function () {
+        // Start game
+        startGame(pairs);
     })
 
-
     /********** ALL TIMER RELATED FUNCTIONS **********/
-    function timerRun(timeToBeat) {
+    function timerRun() {
 
         // Stop timer
         timerStop();
 
-        // Set time for the game
-        time = timeToBeat;
-
         // Set interval to 1 second
         clearInterval(intervalId);
         intervalId = setInterval(decrement, 1000);
-    }
+    };
 
     function timerStop() {
-        // Return clock to 00
+        // Stop the countdown - leave the last time
         clearInterval(intervalId);
-    }
+    };
 
     function decrement() {
 
         //  Decrease time by one.
         time--;
 
-        //  Update the time 
+        // Display time (if hidden)
+        $("#clock").css("visibility", "visible");
+
+        // Update the time 
         $("#clock").text(fancyTimeFormat(time));
 
         //  When run out of time...
@@ -412,7 +529,7 @@ $(document).ready(function () {
             // Log "out of time" and question number
             console.log("Clock down");
         }
-    }
+    };
 
     function fancyTimeFormat(time) {
         // Hours, minutes and seconds
@@ -432,7 +549,7 @@ $(document).ready(function () {
         ret += "" + mins + ":" + (secs < 10 ? "0" : "");
         ret += "" + secs;
         return ret;
-    }
+    };
 
     /*************************************************/
 
@@ -442,7 +559,6 @@ $(document).ready(function () {
 
 });
 
-
 //************************Adding code Alex's code **************/
 
 
@@ -450,7 +566,7 @@ $(document).ready(function () {
 //********API calls for flags and Firebase code for Leaderboard ***************************************************/
 
 
-var urlArray = [];
+var urlFlagArray = [];
 
 //Flags API code Function-----------------------------------/
 
@@ -465,7 +581,7 @@ $("#country-input-btn").on("click", function (event) {
     $("#flags").empty();
 
     //hide user input/btn to show input/btn for country 
-   $(this).parent().hide();
+    $(this).parent().hide();
     $("#input-fields").show();
 
 
@@ -479,7 +595,7 @@ $("#country-input-btn").on("click", function (event) {
         }
 
         var flagUrl = result;
-        urlArray.push(flagUrl);
+        urlFlagArray.push(flagUrl);
     });
 });
 
@@ -496,11 +612,26 @@ var config = {
     projectId: "leader-board-717ef",
     storageBucket: "leader-board-717ef.appspot.com",
     messagingSenderId: "954867525887"
-};
+}; 
+
 firebase.initializeApp(config);
-
-
 var database = firebase.database();
+const db = firebase.firestore();                //without this line of code is a realtime database
+db.settings({timestampsInSnapshots: true});     //without this line of code is a realtime database
+
+// var configJuan = {
+//     apiKey: "AIzaSyAR1BzexHwtNHQ1VZOFjqsTVipSyWvfBnc",
+//     authDomain: "codingbootcamp-dc35e.firebaseapp.com",
+//     databaseURL: "https://codingbootcamp-dc35e.firebaseio.com",
+//     projectId: "codingbootcamp-dc35e",
+//     storageBucket: "codingbootcamp-dc35e.appspot.com",
+//     messagingSenderId: "765982769333"
+// };
+
+// firebase.initializeApp(configJuan);
+// var database = firebase.database();
+// const db = firebase.firestore();
+// db.settings({timestampsInSnapshots: true});
 
 
 // 2. Button for adding Payers to database
@@ -510,9 +641,6 @@ $("#add-player-btn").on("click", function (event) {
 
     $(this).parent().hide();
 
-    
-
-
     // Grabs user input
 
     var rankingInfo = $("#ranking").val().trim(); //info needed from game results
@@ -520,24 +648,25 @@ $("#add-player-btn").on("click", function (event) {
     var countryName = $("#country-input").val().trim();
     var scoreInfo = $("#score").val().trim(); //info needed from game results
 
-
     // Creates local "user-info" object for holding Player data
 
     var newPlayer = {
-       ranking: rankingInfo,
+        ranking: rankingInfo,
         user: username,
-        country: urlArray[0],
-       score: scoreInfo
+        country: urlFlagArray[0],
+        score: scoreInfo
     };
 
     // Uploads player data to the database
     database.ref().push(newPlayer);
 
+    db.collection('Easy').add(newPlayer);
+
 
     $("#ranking").text(newPlayer.ranking); //Waiting for data from game
     $("#name-input").text(newPlayer.user);
     $("#country-input").text(newPlayer.country);
-    $("#score").text(newPlayer.score);  //Waiting for data from game
+    $("#score").text(newPlayer.score); //Waiting for data from game
 
 
     $("#ranking").val("");
@@ -571,9 +700,8 @@ database.ref().on("child_added", function (childSnapshot) {
     $("#leaderboard-table > tbody").append(newRow);
 
     //Empying out url Array for next player
-    urlArray = [];
+    urlFlagArray = [];
 
 });
 
 //********API calls for flags and Firebase code for Leaderboard    END***************************************************/
-
