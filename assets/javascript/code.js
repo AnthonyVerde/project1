@@ -224,9 +224,9 @@ $(document).ready(function () {
         //////////////////////// superheroapi ////////////////////////
         const KEY = '10161297457820113';
 
-        // var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
+        var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
         // var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/10161297457820113/search/man`;
-        var queryURL = `http://superheroapi.com/api.php/${KEY}/search/man`;
+        //var queryURL = `http://superheroapi.com/api.php/${KEY}/search/man`;
 
         $.ajax({
             url: queryURL,

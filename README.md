@@ -56,5 +56,5 @@ Our web version of the popular memory card game where the objective is to collec
 ![05_time_up](./assets/images/flip_08.png)
 ![06_challenge](./assets/images/flip_13.png)
 ![07_challenge_complete](./assets/images/flip_11.png)
-![08_leaderboard](./assets/images/08_leaderboard.png)
+![08_leaderboard](./assets/images/flip_15.png)
 
