@@ -298,7 +298,7 @@ $(document).ready(function () {
         //console.log("Pairs: " + pairs + "   Width: " + boxWidth);
 
         // Set the with of the cards grid
-        $("#gifBox").css("width", boxWidth);
+        $("#gifBox").css("max-width", boxWidth);
 
         // Remove all the existing cards
         $("#gifs").html("");
