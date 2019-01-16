@@ -80,6 +80,11 @@ label {
     margin: 10px;
 }
 
+#flag{
+    height: 20px;
+    width: 40px;
+}
+
 .btn {
     background-color: #FBB03B;
     color: #333;

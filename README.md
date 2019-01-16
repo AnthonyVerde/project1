@@ -24,12 +24,12 @@ Our web version of the popular memory card game where the objective is to collec
 - Google Firebase (Realtime)
 - API calls using AJAX
 
-> **APIs to be Used**
+> **APIs to be used**
 
 - **Super Hero API** (http://superheroapi.com/) for the images on the cards.
-- **TBD** for the flags in the leader board.
+- **REST Countries** (https://restcountries.eu/) for the flags in the leader board.
 
-> **Rough Breakdown of Tasks**
+> **Rough breakdown of tasks**
 
 - Basic
     - Create mockups
@@ -41,10 +41,11 @@ Our web version of the popular memory card game where the objective is to collec
 
 - Logic
     - Create JS basic structure
+    - Modal creation and testing
     - API handlers
 
 - Final
-    - Testing
+    - Testing, tweaking and release :-)
 
 > **Sketch of product**
 
