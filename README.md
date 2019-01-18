@@ -2,7 +2,9 @@
 
 > **Project Title**
 
-## Mobile ![Marvel](marvel_logo.jpg) Memory game ##
+![FLIP.IMG](./assets/images/project_logo.png)
+## Superhero image matching game ##
+See the project [live](https://juanidiaz.github.io/project1/)!
 
 > **Team Members**
 
@@ -14,16 +16,45 @@
 
 Our web version of the popular memory card game where the objective is to collect the most pairs of cards. This version will allow a player to play any of three modes: **easy** (just chose the number of pairs), **timed** (same as easy but with timed countdown) and **challenge** (a progressively difficult game). The player will also be able to log his/her game stats on a leader board using name and country.
 
-> **Sketch of Final Product**
+>**Building tools**
 
-- TBD
+- HTML, CSS
+- Javascript and jQuery
+- Bootstrap
+- Google Firebase (Realtime)
+- API calls using AJAX
 
-> **APIs to be Used**
+> **APIs to be used**
 
-- `Marvel API` (https://developer.marvel.com/) for the images on the cards.
-- `Country flags API` (https://countryflags.io/) for the flags in the leader board.
+- **Super Hero API** (http://superheroapi.com/) for the images on the cards.
+- **REST Countries** (https://restcountries.eu/) for the flags in the leader board.
 
-> **Rough Breakdown of Tasks**
+> **Rough breakdown of tasks**
 
-- TBD
+- Basic
+    - Create mockups
+    - Create Firebase schema and logic
+    - Find APIs for images and flags
+
+- Structure
+    - Create HTML skeleton
+
+- Logic
+    - Create JS basic structure
+    - Modal creation and testing
+    - API handlers
+
+- Final
+    - Testing, tweaking and release :-)
+
+> **Sketch of product**
+
+![01_home](./assets/images/flip_01.png)
+![02_easy](./assets/images/flip_05.png)
+![03_complete](./assets/images/flip_07.png)
+![04_timed](./assets/images/flip_14.png)
+![05_time_up](./assets/images/flip_08.png)
+![06_challenge](./assets/images/flip_13.png)
+![07_challenge_complete](./assets/images/flip_11.png)
+![08_leaderboard](./assets/images/flip_15.png)
 
