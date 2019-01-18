@@ -719,18 +719,13 @@ $(document).ready(function () {
                 indexArray = [];
 
                 // // Switch back that the first card was picked
-                // firstPick = "";
-                // secondPick = "";
+                firstPick = "";
+                secondPick = "";
 
                 // Update the game stats
                 updateStats();
 
             }, 2000); // Wait this many miliseconds after the second card is picked
-
-            // Switch back that the first card was picked
-            firstPick = "";
-            secondPick = "";
-
 
         }
 
